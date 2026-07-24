@@ -1,0 +1,5 @@
+{:hr.db/conn     {:uri "datomic:dev://localhost:4334/hr-triad"}
+ :hr.db/migrated {:conn #ig/ref :hr.db/conn}
+ :hr.web/handler {:db #ig/ref :hr.db/migrated}
+ :hr.web/server  {:handler #ig/ref :hr.web/handler
+                  :port 3001}}

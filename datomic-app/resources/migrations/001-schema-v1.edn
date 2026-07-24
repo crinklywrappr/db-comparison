@@ -1,0 +1,55 @@
+;; Database creation: the full original schema, including the single
+;; :employee/name attribute that 002 later splits (but can never remove).
+;;
+;; Migration files are maps of :up/:down function FORMS, written in the
+;; EDN-readable subset of Clojure: fully-qualified symbols, (quote ...)
+;; and (deref ...) instead of ' and @, no #() — the loader evals them.
+{:up
+ (fn [conn]
+   (deref
+    (datomic.api/transact conn
+      [{:db/ident :employee/id
+        :db/valueType :db.type/uuid :db/cardinality :db.cardinality/one
+        :db/unique :db.unique/identity}
+       {:db/ident :employee/email
+        :db/valueType :db.type/string :db/cardinality :db.cardinality/one
+        :db/unique :db.unique/value}
+       {:db/ident :employee/name
+        :db/valueType :db.type/string :db/cardinality :db.cardinality/one}
+       {:db/ident :employee/hired
+        :db/valueType :db.type/string :db/cardinality :db.cardinality/one}
+       {:db/ident :employee/active
+        :db/valueType :db.type/boolean :db/cardinality :db.cardinality/one}
+       {:db/ident :employee/last-login
+        :db/valueType :db.type/instant :db/cardinality :db.cardinality/one
+        :db/noHistory true}
+       {:db/ident :employee/reviews
+        :db/valueType :db.type/ref :db/cardinality :db.cardinality/many
+        :db/isComponent true}
+       {:db/ident :review/date
+        :db/valueType :db.type/string :db/cardinality :db.cardinality/one}
+       {:db/ident :review/text
+        :db/valueType :db.type/string :db/cardinality :db.cardinality/one
+        :db/fulltext true}
+       {:db/ident :assignment/employee
+        :db/valueType :db.type/ref :db/cardinality :db.cardinality/one}
+       {:db/ident :assignment/dept
+        :db/valueType :db.type/string :db/cardinality :db.cardinality/one}
+       {:db/ident :assignment/role
+        :db/valueType :db.type/string :db/cardinality :db.cardinality/one}
+       {:db/ident :assignment/effective
+        :db/valueType :db.type/string :db/cardinality :db.cardinality/one}
+       {:db/ident :salary-change/employee
+        :db/valueType :db.type/ref :db/cardinality :db.cardinality/one}
+       {:db/ident :salary-change/amount
+        :db/valueType :db.type/long :db/cardinality :db.cardinality/one}
+       {:db/ident :salary-change/effective
+        :db/valueType :db.type/string :db/cardinality :db.cardinality/one}
+       {:db/ident :salary-change/recorded
+        :db/valueType :db.type/string :db/cardinality :db.cardinality/one}
+       {:db/ident :salary-change/note
+        :db/valueType :db.type/string :db/cardinality :db.cardinality/one}])))
+
+ ;; installed schema cannot be uninstalled — the ghost begins here
+ :down
+ (fn [conn] nil)}

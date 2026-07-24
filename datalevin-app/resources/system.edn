@@ -1,0 +1,6 @@
+{:hr.db/conn     {:path "data/hr-db"}
+ :hr.db/migrated {:conn #ig/ref :hr.db/conn
+                  :path "data/hr-db"}
+ :hr.web/handler {:db #ig/ref :hr.db/migrated}
+ :hr.web/server  {:handler #ig/ref :hr.web/handler
+                  :port 3003}}

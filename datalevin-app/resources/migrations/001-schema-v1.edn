@@ -1,0 +1,31 @@
+;; Database creation: the full original schema, including the single
+;; :employee/name attribute that 002 later removes (for real — this is
+;; the mutable store).
+;;
+;; Migration files are maps of :up/:down function FORMS, written in the
+;; EDN-readable subset of Clojure: fully-qualified symbols, (quote ...)
+;; and (deref ...) instead of ' and @, no #() — the loader evals them.
+{:up
+ (fn [conn]
+   (datalevin.core/update-schema conn
+     {:employee/id          {:db/valueType :db.type/uuid   :db/unique :db.unique/identity}
+      :employee/name        {:db/valueType :db.type/string}
+      :employee/email       {:db/valueType :db.type/string :db/unique :db.unique/value}
+      :employee/hired       {:db/valueType :db.type/string}
+      :employee/last-login  {:db/valueType :db.type/instant}
+      :employee/active      {:db/valueType :db.type/boolean}
+      :assignment/employee  {:db/valueType :db.type/ref}
+      :assignment/dept      {:db/valueType :db.type/string}
+      :assignment/role      {:db/valueType :db.type/string}
+      :assignment/effective {:db/valueType :db.type/string}
+      :salary/employee      {:db/valueType :db.type/ref}
+      :salary/amount        {:db/valueType :db.type/long}
+      :salary/effective     {:db/valueType :db.type/string}
+      :salary/recorded      {:db/valueType :db.type/string}
+      :salary/note          {:db/valueType :db.type/string}
+      :review/employee      {:db/valueType :db.type/ref}
+      :review/date          {:db/valueType :db.type/string}
+      :review/text          {:db/valueType :db.type/string :db/fulltext true}}))
+
+ :down
+ (fn [conn] nil)}

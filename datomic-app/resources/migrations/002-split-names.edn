@@ -1,0 +1,42 @@
+;; Split :employee/name into :employee/given-name + :employee/family-name,
+;; rewriting every existing employee. What this CANNOT do: remove the
+;; :employee/name attribute — it is a permanent ghost, and the retracted
+;; name datoms remain visible through d/history and d/as-of forever.
+{:up
+ (fn [conn]
+   (deref
+    (datomic.api/transact conn
+      [{:db/ident :employee/given-name
+        :db/valueType :db.type/string :db/cardinality :db.cardinality/one}
+       {:db/ident :employee/family-name
+        :db/valueType :db.type/string :db/cardinality :db.cardinality/one}]))
+   (let [people (datomic.api/q
+                 (quote [:find ?e ?n :where [?e :employee/name ?n]])
+                 (datomic.api/db conn))]
+     (when (seq people)
+       (deref
+        (datomic.api/transact conn
+          (vec (mapcat
+                (fn [[e n]]
+                  (let [i (clojure.string/last-index-of n " ")]
+                    [[:db/add e :employee/given-name (if i (subs n 0 i) n)]
+                     [:db/add e :employee/family-name (if i (subs n (inc i)) "")]
+                     [:db/retract e :employee/name n]]))
+                people)))))))
+
+ :down
+ (fn [conn]
+   (let [people (datomic.api/q
+                 (quote [:find ?e ?g ?f
+                         :where [?e :employee/given-name ?g]
+                                [?e :employee/family-name ?f]])
+                 (datomic.api/db conn))]
+     (when (seq people)
+       (deref
+        (datomic.api/transact conn
+          (vec (mapcat
+                (fn [[e g f]]
+                  [[:db/add e :employee/name (clojure.string/trim (str g " " f))]
+                   [:db/retract e :employee/given-name g]
+                   [:db/retract e :employee/family-name f]])
+                people)))))))}

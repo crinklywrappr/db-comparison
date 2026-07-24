@@ -1,0 +1,19 @@
+# XTDB standalone node config for hr-triad's xtdb-app.
+#
+# Run the node from this directory so the !Local paths below land under
+# xtdb-app/data/ (git-ignored), mirroring datalevin-app's data/hr-db:
+#
+#   guix shell -f xtdb.scm -- xtdb-standalone -f config.yaml
+#
+# Port 15432 (not the default 5432, which may collide with a real
+# PostgreSQL); the app connects here via system.edn / $XTDB_PORT.
+
+server:
+  host: '*'
+  port: 15432
+
+log: !Local
+  path: "data/log"
+
+storage: !Local
+  path: "data/buffers"

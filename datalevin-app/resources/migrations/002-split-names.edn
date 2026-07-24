@@ -1,0 +1,47 @@
+;; Split :employee/name into :employee/given-name + :employee/family-name,
+;; rewriting every existing employee — and then REMOVING the old
+;; attribute entirely: datoms retracted, schema entry deleted. After
+;; this runs, the single-name shape exists nowhere, at any time.
+;; (Guarded on schema presence so re-running over an already-migrated
+;; database is a no-op.)
+{:up
+ (fn [conn]
+   (when (contains? (datalevin.core/schema conn) :employee/name)
+     (let [people (datalevin.core/q
+                   (quote [:find ?e ?n :where [?e :employee/name ?n]])
+                   (datalevin.core/db conn))]
+       (datalevin.core/transact! conn
+         (mapv (fn [[e n]] [:db/retract e :employee/name n]) people))
+       (datalevin.core/update-schema conn
+         {:employee/given-name  {:db/valueType :db.type/string}
+          :employee/family-name {:db/valueType :db.type/string}}
+         #{:employee/name})
+       (datalevin.core/transact! conn
+         (mapv (fn [[e n]]
+                 (let [i (clojure.string/last-index-of n " ")]
+                   {:db/id e
+                    :employee/given-name  (if i (subs n 0 i) n)
+                    :employee/family-name (if i (subs n (inc i)) "")}))
+               people)))))
+
+ :down
+ (fn [conn]
+   (when (contains? (datalevin.core/schema conn) :employee/given-name)
+     (let [people (datalevin.core/q
+                   (quote [:find ?e ?g ?f
+                           :where [?e :employee/given-name ?g]
+                                  [?e :employee/family-name ?f]])
+                   (datalevin.core/db conn))]
+       (datalevin.core/transact! conn
+         (vec (mapcat (fn [[e g f]]
+                        [[:db/retract e :employee/given-name g]
+                         [:db/retract e :employee/family-name f]])
+                      people)))
+       (datalevin.core/update-schema conn
+         {:employee/name {:db/valueType :db.type/string}}
+         #{:employee/given-name :employee/family-name})
+       (datalevin.core/transact! conn
+         (mapv (fn [[e g f]]
+                 {:db/id e
+                  :employee/name (clojure.string/trim (str g " " f))})
+               people)))))}

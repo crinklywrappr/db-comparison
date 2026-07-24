@@ -1,0 +1,16 @@
+{:paths ["src" "resources"]
+ :deps  {org.clojure/clojure                {:mvn/version "1.12.0"}
+         dev.weavejester/ragtime.next-jdbc  {:mvn/version "0.12.1"}
+         integrant/integrant                {:mvn/version "1.0.1"}
+         org.slf4j/slf4j-simple             {:mvn/version "2.0.13"}
+         com.github.seancorfield/honeysql   {:mvn/version "2.7.1399"}
+         com.github.seancorfield/next.jdbc  {:mvn/version "1.3.939"}
+         com.zaxxer/HikariCP                {:mvn/version "5.1.0"}
+         com.xtdb/xtdb-api                  {:mvn/version "2.0.0"}
+         org.postgresql/postgresql          {:mvn/version "42.7.4"}
+         ring/ring-jetty-adapter            {:mvn/version "1.12.2"}
+         hiccup/hiccup                      {:mvn/version "1.0.5"}
+         metosin/malli                      {:mvn/version "0.16.4"}}
+ :aliases
+ {:run {:main-opts ["-m" "hr.main"]}
+  :bench {:extra-deps {criterium/criterium {:mvn/version "0.4.6"}}}}}

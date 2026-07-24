@@ -1,0 +1,8 @@
+.cpcache
+datalevin-app/data
+xtdb-app/data
+datomic-app/data
+seed.edn
+
+# editor lock files
+.\#*

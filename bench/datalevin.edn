@@ -1,0 +1,306 @@
+{:touch-login!
+ {:method :direct-timed,
+  :samples
+  [8465350
+   4360984
+   4026645
+   9191340
+   3958411
+   3977682
+   4319765
+   4963866
+   3842070
+   4108800
+   4863330
+   4158760
+   4065043
+   4036844
+   4209190
+   6200614
+   3824437
+   3544436
+   4333350
+   5060718],
+  :execution-count 1,
+  :sample-count 20},
+ :get-employee
+ {:overhead 3.243225140500951E-9,
+  :samples [105002757 103616365 99897359 99529331 120595261 140533164],
+  :runtime-details
+  {:spec-vendor "Oracle Corporation",
+   :spec-name "Java Virtual Machine Specification",
+   :vm-version "21.0.2+-adhoc.nixbld.source",
+   :name "20922@goingmerry",
+   :clojure-version-string "1.12.0",
+   :java-runtime-version "21.0.2+-adhoc.nixbld.source",
+   :java-version "21.0.2",
+   :vm-name "OpenJDK 64-Bit Server VM",
+   :vm-vendor "Oracle Corporation",
+   :clojure-version
+   {:major 1, :minor 12, :incremental 0, :qualifier nil},
+   :spec-version "21",
+   :sun-arch-data-model "64",
+   :input-arguments
+   ["-XX:-OmitStackTraceInFastThrow"
+    "--add-opens=java.base/java.nio=ALL-UNNAMED"
+    "--add-opens=java.base/sun.nio.ch=ALL-UNNAMED"
+    "-Xmx2g"
+    "-Dclojure.basis=.cpcache/1536741876.basis"]},
+  :mean
+  [1.6353231598240472E-4
+   (1.5011245796676443E-4 1.8638498851417402E-4)],
+  :final-gc-time 138220530,
+  :execution-count 682,
+  :variance
+  [5.962040788605848E-10
+   (1.2992530664830071E-10 1.005024039787485E-9)],
+  :os-details
+  {:arch "amd64",
+   :available-processors 8,
+   :name "Linux",
+   :version "7.0.11-gnu"},
+  :tail-quantile 0.025,
+  :outlier-variance 0.4707974338642348,
+  :outliers {:low-severe 0, :low-mild 0, :high-mild 0, :high-severe 0},
+  :warmup-time 5014708632,
+  :lower-q
+  [1.4593743548387098E-4
+   (1.4593743548387098E-4 1.4668652529325514E-4)],
+  :warmup-executions 23401,
+  :sample-count 6,
+  :upper-q
+  [1.9954818640029328E-4 (1.5370888269794725E-4 2.06060357771261E-4)],
+  :total-time 0.669174237,
+  :sample-variance [5.623994404289488E-10 (0.0 0.0)],
+  :options
+  {:max-gc-attempts 100,
+   :samples 6,
+   :target-execution-time 100000000,
+   :warmup-jit-period 5000000000,
+   :tail-quantile 0.025,
+   :bootstrap-size 500,
+   :overhead 3.243225140500951E-9},
+  :sample-mean
+  [1.6353231598240472E-4
+   (9.238742885858857E-5 2.3467720310622086E-4)]},
+ :search
+ {:overhead 2.7371472220746416E-9,
+  :samples [91697166 92683199 90728606 91011386 90902570 140169911],
+  :runtime-details
+  {:spec-vendor "Oracle Corporation",
+   :spec-name "Java Virtual Machine Specification",
+   :vm-version "21.0.2+-adhoc.nixbld.source",
+   :name "21156@goingmerry",
+   :clojure-version-string "1.12.0",
+   :java-runtime-version "21.0.2+-adhoc.nixbld.source",
+   :java-version "21.0.2",
+   :vm-name "OpenJDK 64-Bit Server VM",
+   :vm-vendor "Oracle Corporation",
+   :clojure-version
+   {:major 1, :minor 12, :incremental 0, :qualifier nil},
+   :spec-version "21",
+   :sun-arch-data-model "64",
+   :input-arguments
+   ["-XX:-OmitStackTraceInFastThrow"
+    "--add-opens=java.base/java.nio=ALL-UNNAMED"
+    "--add-opens=java.base/sun.nio.ch=ALL-UNNAMED"
+    "-Xmx2g"
+    "-Dclojure.basis=.cpcache/1536741876.basis"]},
+  :mean
+  [5.846220414954003E-5 (5.354579183793306E-5 7.274215893521238E-5)],
+  :final-gc-time 114872265,
+  :execution-count 1703,
+  :variance
+  [1.3662880185205088E-10
+   (4.498459198087736E-14 2.5130308881636174E-10)],
+  :os-details
+  {:arch "amd64",
+   :available-processors 8,
+   :name "Linux",
+   :version "7.0.11-gnu"},
+  :tail-quantile 0.025,
+  :outlier-variance 0.48371390758887783,
+  :outliers {:low-severe 0, :low-mild 0, :high-mild 0, :high-severe 1},
+  :warmup-time 5021017726,
+  :lower-q
+  [5.327575220199648E-5 (5.327575220199648E-5 5.337790369935408E-5)],
+  :warmup-executions 74463,
+  :sample-count 6,
+  :upper-q
+  [7.874974625660599E-5 (5.379415355255432E-5 8.230764004697592E-5)],
+  :total-time 0.597192838,
+  :sample-variance [1.3683828856838727E-10 (0.0 0.0)],
+  :options
+  {:max-gc-attempts 100,
+   :samples 6,
+   :target-execution-time 100000000,
+   :warmup-jit-period 5000000000,
+   :tail-quantile 0.025,
+   :bootstrap-size 500,
+   :overhead 2.7371472220746416E-9},
+  :sample-mean
+  [5.844517889998043E-5 (2.3351809196922763E-5 9.353854860303809E-5)]},
+ :asof-payroll
+ {:overhead 3.243225140500951E-9,
+  :samples
+  [512900525 514330438 464097176 498032832 462698035 483682357],
+  :runtime-details
+  {:spec-vendor "Oracle Corporation",
+   :spec-name "Java Virtual Machine Specification",
+   :vm-version "21.0.2+-adhoc.nixbld.source",
+   :name "20922@goingmerry",
+   :clojure-version-string "1.12.0",
+   :java-runtime-version "21.0.2+-adhoc.nixbld.source",
+   :java-version "21.0.2",
+   :vm-name "OpenJDK 64-Bit Server VM",
+   :vm-vendor "Oracle Corporation",
+   :clojure-version
+   {:major 1, :minor 12, :incremental 0, :qualifier nil},
+   :spec-version "21",
+   :sun-arch-data-model "64",
+   :input-arguments
+   ["-XX:-OmitStackTraceInFastThrow"
+    "--add-opens=java.base/java.nio=ALL-UNNAMED"
+    "--add-opens=java.base/sun.nio.ch=ALL-UNNAMED"
+    "-Xmx2g"
+    "-Dclojure.basis=.cpcache/1536741876.basis"]},
+  :mean [0.48905703700000003 (0.4717646871666667 0.5057199088333334)],
+  :final-gc-time 235983731,
+  :execution-count 1,
+  :variance
+  [6.156691645465776E-4 (2.565487482167908E-4 7.713971325567613E-4)],
+  :os-details
+  {:arch "amd64",
+   :available-processors 8,
+   :name "Linux",
+   :version "7.0.11-gnu"},
+  :tail-quantile 0.025,
+  :outlier-variance 0.13888888888888873,
+  :outliers {:low-severe 0, :low-mild 0, :high-mild 0, :high-severe 0},
+  :warmup-time 5008615846,
+  :lower-q [0.462698035 (0.462698035 0.46532107525000005)],
+  :warmup-executions 10,
+  :sample-count 6,
+  :upper-q [0.512900525 (0.496239022625 0.514330438)],
+  :total-time 2.935741363,
+  :sample-variance [5.268348361499429E-4 (0.0 0.0)],
+  :options
+  {:max-gc-attempts 100,
+   :samples 6,
+   :target-execution-time 100000000,
+   :warmup-jit-period 5000000000,
+   :tail-quantile 0.025,
+   :bootstrap-size 500,
+   :overhead 3.243225140500951E-9},
+  :sample-mean
+  [0.4892902271666667 (0.42043157828833416 0.5581488760449993)]},
+ :list-employees
+ {:overhead 3.243225140500951E-9,
+  :samples
+  [155437266 151215086 145598995 148744024 152253023 146217606],
+  :runtime-details
+  {:spec-vendor "Oracle Corporation",
+   :spec-name "Java Virtual Machine Specification",
+   :vm-version "21.0.2+-adhoc.nixbld.source",
+   :name "20922@goingmerry",
+   :clojure-version-string "1.12.0",
+   :java-runtime-version "21.0.2+-adhoc.nixbld.source",
+   :java-version "21.0.2",
+   :vm-name "OpenJDK 64-Bit Server VM",
+   :vm-vendor "Oracle Corporation",
+   :clojure-version
+   {:major 1, :minor 12, :incremental 0, :qualifier nil},
+   :spec-version "21",
+   :sun-arch-data-model "64",
+   :input-arguments
+   ["-XX:-OmitStackTraceInFastThrow"
+    "--add-opens=java.base/java.nio=ALL-UNNAMED"
+    "--add-opens=java.base/sun.nio.ch=ALL-UNNAMED"
+    "-Xmx2g"
+    "-Dclojure.basis=.cpcache/1536741876.basis"]},
+  :mean
+  [0.07495550000000001 (0.07363269266666668 0.07634100691666668)],
+  :final-gc-time 173910640,
+  :execution-count 2,
+  :variance
+  [4.001453043836368E-6 (1.5652806576648649E-6 6.67627392533803E-6)],
+  :os-details
+  {:arch "amd64",
+   :available-processors 8,
+   :name "Linux",
+   :version "7.0.11-gnu"},
+  :tail-quantile 0.025,
+  :outlier-variance 0.13888888888888887,
+  :outliers {:low-severe 0, :low-mild 0, :high-mild 0, :high-severe 0},
+  :warmup-time 8778088422,
+  :lower-q [0.0727994975 (0.0727994975 0.073108803)],
+  :warmup-executions 111,
+  :sample-count 6,
+  :upper-q [0.07745474675000001 (0.075453101625 0.07771863300000001)],
+  :total-time 0.899466,
+  :sample-variance [3.5660853637259047E-6 (0.0 0.0)],
+  :options
+  {:max-gc-attempts 100,
+   :samples 6,
+   :target-execution-time 100000000,
+   :warmup-jit-period 5000000000,
+   :tail-quantile 0.025,
+   :bootstrap-size 500,
+   :overhead 3.243225140500951E-9},
+  :sample-mean
+  [0.07495550000000001 (0.06929027553193759 0.08062072446806243)]},
+ :report
+ {:overhead 3.243225140500951E-9,
+  :samples
+  [385628596 392919639 382796538 358533490 348794131 357092455],
+  :runtime-details
+  {:spec-vendor "Oracle Corporation",
+   :spec-name "Java Virtual Machine Specification",
+   :vm-version "21.0.2+-adhoc.nixbld.source",
+   :name "20922@goingmerry",
+   :clojure-version-string "1.12.0",
+   :java-runtime-version "21.0.2+-adhoc.nixbld.source",
+   :java-version "21.0.2",
+   :vm-name "OpenJDK 64-Bit Server VM",
+   :vm-vendor "Oracle Corporation",
+   :clojure-version
+   {:major 1, :minor 12, :incremental 0, :qualifier nil},
+   :spec-version "21",
+   :sun-arch-data-model "64",
+   :input-arguments
+   ["-XX:-OmitStackTraceInFastThrow"
+    "--add-opens=java.base/java.nio=ALL-UNNAMED"
+    "--add-opens=java.base/sun.nio.ch=ALL-UNNAMED"
+    "-Xmx2g"
+    "-Dclojure.basis=.cpcache/1536741876.basis"]},
+  :mean [0.3699858068333333 (0.35618974600000003 0.3828309105)],
+  :final-gc-time 172429854,
+  :execution-count 1,
+  :variance
+  [3.952798806130318E-4 (2.1435947047293861E-4 5.223616146691969E-4)],
+  :os-details
+  {:arch "amd64",
+   :available-processors 8,
+   :name "Linux",
+   :version "7.0.11-gnu"},
+  :tail-quantile 0.025,
+  :outlier-variance 0.1416152844224738,
+  :outliers {:low-severe 0, :low-mild 0, :high-mild 0, :high-severe 0},
+  :warmup-time 12881025378,
+  :lower-q [0.348794131 (0.348794131 0.35709245500000003)],
+  :warmup-executions 35,
+  :sample-count 6,
+  :upper-q
+  [0.39165425137500004 (0.38224170775000005 0.39291963900000004)],
+  :total-time 2.225764849,
+  :sample-variance [3.3510995703209327E-4 (0.0 0.0)],
+  :options
+  {:max-gc-attempts 100,
+   :samples 6,
+   :target-execution-time 100000000,
+   :warmup-jit-period 5000000000,
+   :tail-quantile 0.025,
+   :bootstrap-size 500,
+   :overhead 3.243225140500951E-9},
+  :sample-mean
+  [0.3709608081666667 (0.3160427818611918 0.42587883447214164)]}}
