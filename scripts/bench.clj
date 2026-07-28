@@ -25,9 +25,12 @@
 
 (defn db-key []
   (let [n (str/lower-case (:db db/info))]
-    (cond (str/includes? n "datomic")   "datomic"
-          (str/includes? n "xtdb")      "xtdb"
-          (str/includes? n "datalevin") "datalevin"
+    (cond (str/includes? n "datomic")       "datomic"
+          (str/includes? n "xtdb")          "xtdb"
+          ;; the client/server Datalevin variant benches into its own file so it
+          ;; never clobbers the embedded datalevin.edn record
+          (str/includes? n "client/server") "datalevin-cs"
+          (str/includes? n "datalevin")     "datalevin"
           :else "unknown")))
 
 ;; Preserve the ENTIRE criterium statistical result map (mean, variance,

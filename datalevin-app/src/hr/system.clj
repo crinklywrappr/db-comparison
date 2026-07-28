@@ -6,12 +6,9 @@
   (:require [datalevin.core :as d]
             [hr.db :as db]
             [hr.migrations :as migrations]
-            [hr.ragtime-adaptor :as adaptor]
             [hr.web :as web]
             [integrant.core :as ig]
-            [ragtime.core :as ragtime]
-            [ragtime.reporter :as reporter]
-            [ragtime.strategy :as strategy]
+            [syncopate.core :as sc]
             [ring.adapter.jetty :refer [run-jetty]]))
 
 (defmethod ig/init-key :hr.db/conn [_ {:keys [path]}]
@@ -29,16 +26,12 @@
   ;; needs the engine) and after the final migrate-all (so the handle
   ;; given downstream postdates EVERY schema change — a future
   ;; migration adding a fulltext attribute stays safe).
-  (let [index (ragtime/into-index migrations/migrations)
-        opts {:reporter reporter/print}
+  (let [migs    migrations/migrations
         reopen! (fn [conn] (d/close conn) (d/get-conn path))]
-    (ragtime/migrate-all (adaptor/->DatalevinStore conn) index
-                         [(first migrations/migrations)]
-                         (assoc opts :strategy strategy/apply-new))
+    (sc/migrate-all! (sc/store conn) [(first migs)])   ;creation migration
     (let [conn (reopen! conn)]
       (when (db/empty-db? conn) (db/seed! conn))
-      (ragtime/migrate-all (adaptor/->DatalevinStore conn) index
-                           migrations/migrations opts)
+      (sc/migrate-all! (sc/store conn) migs)           ;applies the rest (002)
       (reopen! conn))))
 
 (defmethod ig/halt-key! :hr.db/migrated [_ conn]

@@ -445,22 +445,26 @@ mention — the first phase uses `ragtime.strategy/apply-new` instead.
 ## Performance at 50k
 
 The three `db.clj`s implement the *same* six curated functions; seeded to 50 000
-employees, they do not perform alike. The fast in-process engines are timed with
+employees, they do not perform alike. A fourth column runs the **same Datalevin
+`db.clj` a second time**, but against a networked Datalevin server over `dtlv://`
+(the [`datalevin-cs-app`](datalevin-cs-app/)), to price the client/server hop.
+The in-process engines — and the client/server one — are timed with
 [criterium](https://github.com/hugoduncan/criterium); XTDB's calls are all
 multi-second — where criterium's JIT-warmup phase is impractical — so they are
 timed by a bounded batch of direct calls (as is every write). The full raw
-output is committed under [`bench/`](bench/) and the charts are rendered by
-[`scripts/plot_bench.clj`](scripts/plot_bench.clj); each box is one function,
-**green the fastest engine, red the slowest**, log Y.
+output is committed under [`bench/`](bench/) (`datalevin-cs.edn` is the
+client/server run) and the charts are rendered by
+[`scripts/plot_bench.clj`](scripts/plot_bench.clj); each box is one function
+across all four engines, **green the fastest, red the slowest**, log Y.
 
-| function (median / call)          | Datomic | XTDB  | Datalevin  |
-|-----------------------------------|---------|-------|------------|
-| `get-employee` (point read)       | 3.3 ms  | 2.1 s | **153 µs** |
-| `search "quota"` (one page)       | 68 ms   | 2.9 s | **53 µs**  |
-| `list-employees` (one page)       | 161 ms  | 2.6 s | **76 ms**  |
-| `report` (dept aggregate)         | 1.2 s   | 1.4 s | **383 ms** |
-| `asof-payroll` (whole population) | 1.4 s   | 2.0 s | **498 ms** |
-| `touch-login!` (write)            | 8.6 ms  | 1.5 s | **4.2 ms** |
+| function (median / call)          | Datomic | XTDB  | Datalevin (embedded) | Datalevin (C/S) |
+|-----------------------------------|---------|-------|----------------------|-----------------|
+| `get-employee` (point read)       | 3.3 ms  | 2.1 s | **153 µs**           | 5.1 ms          |
+| `search "quota"` (one page)       | 68 ms   | 2.9 s | **53 µs**            | 1.1 ms          |
+| `list-employees` (one page)       | 161 ms  | 2.6 s | **76 ms**            | 136 ms          |
+| `report` (dept aggregate)         | 1.2 s   | 1.4 s | **383 ms**           | 556 ms          |
+| `asof-payroll` (whole population) | 1.4 s   | 2.0 s | **498 ms**           | 745 ms          |
+| `touch-login!` (write)            | 8.6 ms  | 1.5 s | **4.2 ms**           | 7.2 ms          |
 
 **First, what the 50k scale forced — because the honest finding is the code, not
 the engine.** A naïve first cut of these functions read the *whole* population
@@ -504,6 +508,18 @@ in-place update.
 ![get-employee](images/bench-get-employee.png)
 ![touch-login](images/bench-touch-login.png)
 
+**The client/server column is the price of the wire.** Running the *identical*
+Datalevin `db.clj` against a networked server adds a fixed ~few-ms round-trip to
+every call. Tiny operations pay a big *relative* multiple — a point read goes
+153 µs → **5.1 ms** (~33×), a full-text page 53 µs → **1.1 ms** (~21×) — yet stay
+firmly single-digit ms. The bulk/analytics calls barely notice (`list-employees`,
+`report`, `asof-payroll` are only ~1.5–1.8× slower): the query runs server-side in
+one round-trip, so only the result *set* crosses the wire, not each sub-read. And
+even over the wire Datalevin still beats the Datomic peer on five of six functions
+— it loses only the point read (5.1 ms vs 3.3 ms), where an in-process peer has no
+socket to cross. (This is localhost TCP, a best case; a real network widens the
+small-op gap, not the bulk one.)
+
 **Reading the whole picture:** with *efficient* queries, the embedded zero-ops
 store (Datalevin) is fastest on every function at this scale, the Datomic peer
 sits a rung above it, and XTDB is ~1.4–2.9 s across the board. But that last
@@ -519,6 +535,12 @@ scale) isn't what a single-box latency micro-benchmark rewards.
 
 **Methodology & caveats.** One warm JVM, single machine — read *relative shape*,
 not absolute numbers.
+- **The client/server column is the [`datalevin-cs-app`](datalevin-cs-app/)** —
+  the same Datalevin `db.clj`, but its connection is a `dtlv://` URI to a separate
+  `datalevin serv` process (localhost, loopback TCP), criterium-timed like the
+  embedded engines. The same [`scripts/bench.clj`](scripts/bench.clj) writes its
+  `bench/datalevin-cs.edn` (its `db-key` maps the client/server variant to
+  `datalevin-cs` so it never clobbers the embedded record).
 - **XTDB's numbers are un-compacted, single-node, over the wire — its worst
   case.** A bulk-loaded 50k bitemporal `employees` table fragments into a few
   thousand time-partitioned Arrow runs (its top-level fields *are* auto-indexed —

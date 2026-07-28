@@ -15,7 +15,7 @@
         '[java.awt.image BufferedImage]
         '[javax.imageio ImageIO])
 
-(def dbs ["datomic" "xtdb" "datalevin"])
+(def dbs ["datomic" "xtdb" "datalevin" "datalevin-cs"])
 (def fns [:get-employee :search :asof-payroll :list-employees :report :touch-login!])
 (def green (Color. 46 178 92)) (def red (Color. 214 48 48)) (def gray (Color. 150 150 156))
 (defn lighter [^Color c] (Color. (int (+ (* 0.45 (.getRed c)) 140))
